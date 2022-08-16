@@ -1,15 +1,4 @@
-###########################
-# 6.0002 Problem Set 1a: Space Cows 
-# Name:
-# Collaborators:
-# Time:
-
-# import time
-
-#================================
-# Part A: Transporting Space Cows
-#================================
-
+import time
 # Problem 1
 def load_cows(filename):
     """
@@ -126,31 +115,27 @@ def brute_force_cow_transport(cows,limit=10):
     min_num_trips = len(cows)
     best_partition = []
     for partition in get_partitions(list(dic.keys())):
-        print("\npartition atual: ", partition)
         max_weight = 0
         for trip in partition:
             current_weight = 0
             for cow in trip:
                 current_weight = current_weight + cows[cow]
-                print(current_weight)
             if current_weight >= max_weight:
                 max_weight = current_weight
         if max_weight > limit:
             continue
         num_trips = len(partition)
-        print("num_trips: ", num_trips)
-        print("min_num_trips: ", min_num_trips)
         if num_trips <= min_num_trips:
             min_num_trips = num_trips
             best_partition = partition
     return best_partition
         
     
-filename = 'ps1_cow_data.txt'
-dic = load_cows(filename)
-dic = {'Jesse': 6, 'Maybel': 3, 'Callie': 2, 'Maggie': 5}
-lis = brute_force_cow_transport(dic)
-print("Brute Force:\n", lis)
+# filename = 'ps1_cow_data.txt'
+# dic = load_cows(filename)
+# dic = {'Jesse': 6, 'Maybel': 3, 'Callie': 2, 'Maggie': 5}
+# lis = brute_force_cow_transport(dic)
+# print("Brute Force:\n", lis)
 
         
 # Problem 4
@@ -167,5 +152,21 @@ def compare_cow_transport_algorithms():
     Returns:
     Does not return anything.
     """
-    # TODO: Your code here
-    pass
+    filename = 'ps1_cow_data.txt'
+    
+    dic = load_cows(filename)
+    print("\nBrute Force")
+    start_time = time.time()
+    lis = brute_force_cow_transport(dic)
+    print("It took ", "{:.2f}".format(time.time() - start_time), " seconds")
+    print("Brute Force:\n", lis)
+    print("Number of trips = ", len(lis))
+    
+    print("\nGreedy")
+    start_time = time.time()
+    lis = greedy_cow_transport(dic)
+    print("It took ", "{:.2f}".format(time.time() - start_time), " seconds")
+    print("Greedy:\n", lis)
+    print("Number of trips = ", len(lis))
+    
+compare_cow_transport_algorithms() 
